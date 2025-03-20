@@ -15,8 +15,7 @@ messages = [
     {
         "role": "user",
         "content": [
-            {"type": "image", "url": "https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/p-blog/candy.JPG"},
-            {"type": "text", "text": "What animal is on the candy?"}
+            {"type": "text", "text": "東京の観光名所を5つ教えてください。"}
         ]
     }
 ]
