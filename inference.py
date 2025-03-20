@@ -2,7 +2,7 @@ from transformers import pipeline
 import torch
 
 pipe = pipeline(
-    "image-text-to-text",
+    "text-generation",
     model="google/gemma-3-4b-it",
     torch_dtype=torch.bfloat16
 )
