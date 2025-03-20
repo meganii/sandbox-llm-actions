@@ -1,11 +1,11 @@
-name: Download and Cache Hugging Face Model
+name: Gemma Model Inference on CPU
 
 on:
   workflow_dispatch:  # 手動実行用
   # 必要に応じてpushやpull_requestトリガーを追加
 
 jobs:
-  download-and-cache:
+  inference:
     runs-on: ubuntu-latest
     
     steps:
@@ -20,14 +20,15 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install huggingface_hub
+          pip install torch==2.0.1+cpu -f https://download.pytorch.org/whl/cpu/torch_stable.html
+          pip install transformers==4.37.2 huggingface_hub==0.20.3 accelerate==0.27.2 bitsandbytes==0.41.3 sentencepiece==0.1.99 protobuf==4.25.1
       
       - name: Cache Hugging Face Models
         id: cache-hf-models
         uses: actions/cache@v3
         with:
           path: ~/.cache/huggingface
-          key: hf-models-gemma-3-4b-it-${{ hashFiles('**/requirements.txt') }}
+          key: hf-models-gemma-3-4b-it-${{ github.sha }}
           restore-keys: |
             hf-models-gemma-3-4b-it-
       
@@ -38,7 +39,14 @@ jobs:
         run: |
           python -c "from huggingface_hub import snapshot_download; snapshot_download('google/gemma-3-4b-it', token='$HF_TOKEN')"
       
-      - name: Verify model is cached
+      - name: Run inference on CPU
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
-          ls -la ~/.cache/huggingface/hub
-          echo "Model should now be cached for future workflow runs"
+          python inference.py
+          
+      - name: Upload inference results
+        uses: actions/upload-artifact@v3
+        with:
+          name: inference-results
+          path: results.txt
