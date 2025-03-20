@@ -46,7 +46,7 @@ jobs:
           python inference.py
           
       - name: Upload inference results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: inference-results
           path: results.txt
