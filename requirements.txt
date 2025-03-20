@@ -1,0 +1,12 @@
+"torch>=2.4.0"
+tensorboard
+git+https://github.com/huggingface/transformers@v4.49.0-Gemma-3
+"datasets==3.3.2"
+"accelerate==1.4.0"
+"evaluate==0.4.3"
+"bitsandbytes==0.45.3"
+"trl==0.15.2"
+"peft==0.14.0"
+protobuf
+sentencepiece
+pillow
