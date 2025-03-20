@@ -1,0 +1,44 @@
+name: Download and Cache Hugging Face Model
+
+on:
+  workflow_dispatch:  # 手動実行用
+  # 必要に応じてpushやpull_requestトリガーを追加
+
+jobs:
+  download-and-cache:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install huggingface_hub
+      
+      - name: Cache Hugging Face Models
+        id: cache-hf-models
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/huggingface
+          key: hf-models-gemma-3-4b-it-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            hf-models-gemma-3-4b-it-
+      
+      - name: Download model if cache miss
+        if: steps.cache-hf-models.outputs.cache-hit != 'true'
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          python -c "from huggingface_hub import snapshot_download; snapshot_download('google/gemma-3-4b-it', token='$HF_TOKEN')"
+      
+      - name: Verify model is cached
+        run: |
+          ls -la ~/.cache/huggingface/hub
+          echo "Model should now be cached for future workflow runs"
