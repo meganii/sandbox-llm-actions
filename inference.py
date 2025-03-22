@@ -14,7 +14,7 @@ model_id = "google/gemma-3-4b-it"
 model = Gemma3ForConditionalGeneration.from_pretrained(
     model_id,
     quantization_config=quantization_config,  # 量子化設定を適用
-    device_map="cuda"
+    device_map="cpu"
 )
 
 # プロセッサのロード
