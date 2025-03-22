@@ -1,0 +1,21 @@
+name: 'Code Review using Ollama'
+description: 'Perform a code review on code modified using Ollama'
+
+on:
+  workflow_dispatch:
+
+jobs:
+  ollama:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Ollama
+        run: |
+          curl -fsSL https://ollama.com/install.sh | bash
+          ollama run gemma3:4b
+        shell: bash
