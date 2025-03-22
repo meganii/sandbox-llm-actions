@@ -30,7 +30,5 @@ jobs:
           curl -fsSL https://ollama.com/install.sh | bash
 
       - name: Run Ollama
-        run: ollama serve gemma3:4b
+        run: ollama serve gemma3:4b & python3 summarize.py
 
-      - name: Run scpypt
-        run: python3 summarize.py
