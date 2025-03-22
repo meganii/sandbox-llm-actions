@@ -17,5 +17,6 @@ jobs:
       - name: Install Ollama
         run: |
           curl -fsSL https://ollama.com/install.sh | bash
-          ollama run gemma3:4b
-        shell: bash
+
+      - name: Run Ollama
+        run: ollama run gemma3:4b 'こんにちは'
