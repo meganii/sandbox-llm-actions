@@ -10,7 +10,7 @@ def main():
 
     headers = {"Content-Type": "application/json"}
     json = {
-        "model": "gemma3:4b",
+        "model": "gemma3:12b",
         "system": '''あなたは優秀な要約生成アシスタントです。
 次のテキストはコラボレーションツールCosenseに作成された「井戸端」プロジェクトの日記ページの内容です。
 
